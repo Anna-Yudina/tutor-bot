@@ -1,6 +1,8 @@
 package ru.yudina.tutorbot.service.handler;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -8,33 +10,38 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import ru.yudina.tutorbot.service.manager.FeedbackManager;
 import ru.yudina.tutorbot.service.manager.HelpManager;
 import ru.yudina.tutorbot.service.manager.StartManager;
+import ru.yudina.tutorbot.service.manager.TimeTableManager;
 import ru.yudina.tutorbot.telegram.Bot;
-
-import java.util.List;
 
 import static ru.yudina.tutorbot.service.data.Command.*;
 
 @Service
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CommandHandler {
 
-    private final HelpManager helpManager;
+    HelpManager helpManager;
 
-    private final FeedbackManager feedbackManager;
+    FeedbackManager feedbackManager;
 
-    private final StartManager startManager;
+    StartManager startManager;
+
+    TimeTableManager timeTableManager;
 
     public BotApiMethod<?> answer(Message message, Bot bot) {
         String command = message.getText();
         switch (command) {
             case START_COMMAND -> {
-                return startManager.answerCommand(message);
+                return startManager.answerCommand(message, bot);
             }
             case FEEDBACK_COMMAND -> {
-                return feedbackManager.answerCommand(message);
+                return feedbackManager.answerCommand(message, bot);
             }
             case HELP_COMMAND -> {
-                return helpManager.answerCommand(message);
+                return helpManager.answerCommand(message, bot);
+            }
+            case TIMETABLE_COMMAND -> {
+                return timeTableManager.answerCommand(message, bot);
             }
             default -> {
                 return defaultAnswer(message);

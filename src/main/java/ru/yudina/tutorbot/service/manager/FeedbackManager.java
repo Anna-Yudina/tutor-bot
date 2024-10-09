@@ -9,16 +9,18 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import ru.yudina.tutorbot.service.factory.AnswerMethodFactory;
 import ru.yudina.tutorbot.service.factory.KeyboardFactory;
+import ru.yudina.tutorbot.telegram.Bot;
 
 @Component
 @AllArgsConstructor
-public class FeedbackManager {
+public class FeedbackManager extends AbstractManager{
 
     private final AnswerMethodFactory answerMethodFactory;
 
     private final KeyboardFactory keyboardFactory;
 
-    public BotApiMethod<?> answerCommand(Message message) {
+    @Override
+    public BotApiMethod<?> answerCommand(Message message, Bot bot) {
         return answerMethodFactory.getSendMessage(
                 message.getChatId(),
                 """
@@ -29,7 +31,9 @@ public class FeedbackManager {
         );
     }
 
-    public BotApiMethod<?> answerCallbackQuery(CallbackQuery callbackQuery) {
+
+    @Override
+    public BotApiMethod<?> answerCallbackQuery(CallbackQuery callbackQuery, Bot bot) {
         return answerMethodFactory.getEditMessageText(
                 callbackQuery,
                 """
@@ -38,5 +42,10 @@ public class FeedbackManager {
                         """,
                 null);
 
+    }
+
+    @Override
+    public BotApiMethod<?> answerMessage(Message message, Bot bot) {
+        return null;
     }
 }
