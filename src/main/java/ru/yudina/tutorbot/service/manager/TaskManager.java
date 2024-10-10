@@ -26,7 +26,7 @@ public class TaskManager extends AbstractManager{
 
     @Override
     public BotApiMethod<?> answerCommand(Message message, Bot bot) {
-        return null;
+        return mainMenu(message);
     }
 
     @Override
@@ -36,6 +36,12 @@ public class TaskManager extends AbstractManager{
 
     @Override
     public BotApiMethod<?> answerCallbackQuery(CallbackQuery callbackQuery, Bot bot) {
+        String callbackData = callbackQuery.getData();
+        switch (callbackData){
+            case TASK -> {
+                return create(callbackQuery);
+            }
+        }
         return null;
     }
 
@@ -43,12 +49,12 @@ public class TaskManager extends AbstractManager{
         return answerMethodFactory.getSendMessage(
                 message.getChatId(),
                 """
-                        \uD83D\uDCC6 Здесь вы можете управлять вашим расписанием
+                        Вы можете добавить домашнее задание вашему ученику
                         """,
                 keyboardFactory.getInlineKeyboard(
                         List.of("Прикрепить домашнее задание"),
                         List.of(1),
-                        List.of(TIMETABLE_SHOW, TIMETABLE_REMOVE, TIMETABLE_ADD)
+                        List.of(TASK_CREATE)
                 )
         );
     }
@@ -57,12 +63,26 @@ public class TaskManager extends AbstractManager{
         return answerMethodFactory.getEditMessageText(
                 callbackQuery,
                 """
-                        \uD83D\uDCC6 Здесь вы можете управлять вашим расписанием
+                        Вы можете добавить домашнее задание вашему ученику
                         """,
                 keyboardFactory.getInlineKeyboard(
-                        List.of("Показать мое расписание", "удалить занятие", "добавить занятие"),
-                        List.of(1, 2),
-                        List.of(TIMETABLE_SHOW, TIMETABLE_REMOVE, TIMETABLE_ADD)
+                        List.of("Прикрепить домашнее задание"),
+                        List.of(1),
+                        List.of(TASK_CREATE)
+                )
+        );
+    }
+
+    private BotApiMethod<?> create(CallbackQuery callbackQuery){
+        return answerMethodFactory.getEditMessageText(
+                callbackQuery,
+                """
+                        Выберите ученика, которому хотите дать домашнее задание
+                        """,
+                keyboardFactory.getInlineKeyboard(
+                        List.of("Назад"),
+                        List.of(1),
+                        List.of(TASK)
                 )
         );
     }

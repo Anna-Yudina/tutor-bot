@@ -6,9 +6,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
-import ru.yudina.tutorbot.service.manager.FeedbackManager;
-import ru.yudina.tutorbot.service.manager.HelpManager;
-import ru.yudina.tutorbot.service.manager.TimeTableManager;
+import ru.yudina.tutorbot.service.manager.*;
 import ru.yudina.tutorbot.telegram.Bot;
 
 import static ru.yudina.tutorbot.service.data.CallbackData.*;
@@ -23,10 +21,21 @@ public class CallbackQueryHandler {
 
     TimeTableManager timeTableManager;
 
+    TaskManager taskManager;
+
+    ProgressControlManager progressControlManager;
+
     public BotApiMethod<?> answer(CallbackQuery callbackQuery, Bot bot) {
         String callbackData = callbackQuery.getData();
-        if (TIMETABLE.equals(callbackData.split("_")[0])) {
+        String keyWord = callbackData.split("_")[0];
+        if (TIMETABLE.equals(keyWord)) {
             timeTableManager.answerCallbackQuery(callbackQuery, bot);
+        }
+        if(TASK.equals(keyWord)){
+            return taskManager.answerCallbackQuery(callbackQuery, bot);
+        }
+        if(PROGRESS.equals(keyWord)){
+            return progressControlManager.answerCallbackQuery(callbackQuery, bot);
         }
         switch (callbackData) {
             case FEEDBACK -> {

@@ -7,10 +7,7 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import ru.yudina.tutorbot.service.manager.FeedbackManager;
-import ru.yudina.tutorbot.service.manager.HelpManager;
-import ru.yudina.tutorbot.service.manager.StartManager;
-import ru.yudina.tutorbot.service.manager.TimeTableManager;
+import ru.yudina.tutorbot.service.manager.*;
 import ru.yudina.tutorbot.telegram.Bot;
 
 import static ru.yudina.tutorbot.service.data.Command.*;
@@ -28,6 +25,10 @@ public class CommandHandler {
 
     TimeTableManager timeTableManager;
 
+    TaskManager taskManager;
+
+    ProgressControlManager progressControlManager;
+
     public BotApiMethod<?> answer(Message message, Bot bot) {
         String command = message.getText();
         switch (command) {
@@ -42,6 +43,12 @@ public class CommandHandler {
             }
             case TIMETABLE_COMMAND -> {
                 return timeTableManager.answerCommand(message, bot);
+            }
+            case TASK_COMMAND -> {
+                return taskManager.answerCommand(message, bot);
+            }
+            case PROGRESS -> {
+                return progressControlManager.answerCommand(message, bot);
             }
             default -> {
                 return defaultAnswer(message);
