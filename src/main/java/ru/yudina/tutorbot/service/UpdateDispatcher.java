@@ -2,14 +2,13 @@ package ru.yudina.tutorbot.service;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.yudina.tutorbot.entity.User;
+import ru.yudina.tutorbot.entity.user.User;
 import ru.yudina.tutorbot.repository.UserRepository;
 import ru.yudina.tutorbot.service.handler.CallbackQueryHandler;
 import ru.yudina.tutorbot.service.handler.CommandHandler;
