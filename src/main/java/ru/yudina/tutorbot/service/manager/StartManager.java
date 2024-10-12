@@ -1,6 +1,7 @@
 package ru.yudina.tutorbot.service.manager;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
@@ -16,6 +17,7 @@ import static ru.yudina.tutorbot.service.data.CallbackData.HELP;
 
 @Component
 @AllArgsConstructor
+@Slf4j
 public class StartManager  extends AbstractManager{
 
     private final AnswerMethodFactory answerMethodFactory;
@@ -24,6 +26,7 @@ public class StartManager  extends AbstractManager{
 
     @Override
     public BotApiMethod<?> answerCommand(Message message, Bot bot) {
+        log.info("Зашли в метод StartManager.answerCommand");
         return answerMethodFactory.getSendMessage(
                 message.getChatId(),
                         """

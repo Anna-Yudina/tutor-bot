@@ -9,7 +9,7 @@ import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.yudina.tutorbot.entity.user.User;
-import ru.yudina.tutorbot.repository.UserRepository;
+import ru.yudina.tutorbot.repository.UserRepo;
 import ru.yudina.tutorbot.service.handler.CallbackQueryHandler;
 import ru.yudina.tutorbot.service.handler.CommandHandler;
 import ru.yudina.tutorbot.service.handler.MessageHandler;
@@ -23,7 +23,6 @@ public class UpdateDispatcher {
     MessageHandler messageHandler;
     CommandHandler commandHandler;
     CallbackQueryHandler callbackQueryHandler;
-    UserRepository userRepository;
 
     public BotApiMethod<?> distribute(Update update, Bot bot) {
         if (update.hasCallbackQuery()) {
@@ -32,15 +31,15 @@ public class UpdateDispatcher {
         if (update.hasMessage()) {
             Message message = update.getMessage();
             if (message.hasText()) {
-                userRepository.save(User.builder()
-                        .chatId(message.getChatId())
-                        .build());
+                log.info("проверили первое условие");
                 if (message.getText().charAt(0) == '/') {
+                    log.info("Проверили второе условие");
                     return commandHandler.answer(message, bot);
                 }
             }
             return messageHandler.answer(message, bot);
         }
+
         log.info("Unsupported update " + update);
         return null;
     }

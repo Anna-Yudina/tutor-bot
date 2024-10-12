@@ -9,8 +9,8 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @Table(name = "users")
 @Entity
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class User {
 
@@ -25,7 +25,7 @@ public class User {
     Action action;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_details_id")
     UserDetails userDetails;
 
 }

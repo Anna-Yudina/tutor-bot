@@ -3,6 +3,7 @@ package ru.yudina.tutorbot.service.handler;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -15,6 +16,7 @@ import static ru.yudina.tutorbot.service.data.Command.*;
 @Service
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@Slf4j
 public class CommandHandler {
 
     HelpManager helpManager;
@@ -31,6 +33,7 @@ public class CommandHandler {
 
     public BotApiMethod<?> answer(Message message, Bot bot) {
         String command = message.getText();
+        log.info("Введеная команда: " + command);
         switch (command) {
             case START_COMMAND -> {
                 return startManager.answerCommand(message, bot);

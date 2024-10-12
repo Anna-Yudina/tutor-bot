@@ -12,8 +12,8 @@ import java.util.UUID;
 @Builder
 @Table(name = "user_details")
 @Entity
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserDetails {
 
@@ -33,8 +33,4 @@ public class UserDetails {
 
     @Column(name = "registered_at")
     LocalDateTime registeredAt;
-
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    User user;
 }

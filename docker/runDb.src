@@ -1,1 +1,1 @@
-docker run --name manager-api -p 5430:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=managerDB -d postgres:13.3
+docker run --name manager-api -p 5430:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=managerDB -d postgres

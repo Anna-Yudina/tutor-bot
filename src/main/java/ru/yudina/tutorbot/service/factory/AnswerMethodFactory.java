@@ -1,6 +1,7 @@
 package ru.yudina.tutorbot.service.factory;
 
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
@@ -14,6 +15,7 @@ public class AnswerMethodFactory {
         return SendMessage.builder()
                 .chatId(chatId)
                 .replyMarkup(replyKeyboard)
+                .text(text)
                 .disableWebPagePreview(true)
                 .build();
     }
@@ -32,6 +34,13 @@ public class AnswerMethodFactory {
         return DeleteMessage.builder()
                 .chatId(chatId)
                 .messageId(messageId)
+                .build();
+    }
+
+    public AnswerCallbackQuery getAnswerCallbackQuery(String callbackQueryId, String text){
+        return AnswerCallbackQuery.builder()
+                .callbackQueryId(callbackQueryId)
+                .text(text)
                 .build();
     }
 }
