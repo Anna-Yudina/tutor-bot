@@ -9,4 +9,6 @@ public class Command {
     public static final String TASK_COMMAND = "/task";
 
     public static final String PROGRESS = "/progress";
+
+    public static final String PROFILE = "/profile";
 }

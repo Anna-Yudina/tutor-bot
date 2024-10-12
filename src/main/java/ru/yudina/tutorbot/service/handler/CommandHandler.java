@@ -31,6 +31,8 @@ public class CommandHandler {
 
     ProgressControlManager progressControlManager;
 
+    ProfileManager profileManager;
+
     public BotApiMethod<?> answer(Message message, Bot bot) {
         String command = message.getText();
         log.info("Введеная команда: " + command);
@@ -52,6 +54,9 @@ public class CommandHandler {
             }
             case PROGRESS -> {
                 return progressControlManager.answerCommand(message, bot);
+            }
+            case PROFILE -> {
+                return profileManager.answerCommand(message, bot);
             }
             default -> {
                 return defaultAnswer(message);

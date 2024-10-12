@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.List;
+import java.util.UUID;
+
 @Getter
 @Setter
 @Builder
@@ -18,6 +21,9 @@ public class User {
     @Id
     Long chatId;
 
+    @Column(name = "token", unique = true)
+    UUID token;
+
     @Enumerated(EnumType.STRING)
     Role role;
 
@@ -28,4 +34,17 @@ public class User {
     @JoinColumn(name = "user_details_id")
     UserDetails userDetails;
 
+    @ManyToMany
+    @JoinTable(joinColumns = @JoinColumn(name = "teacher_id"),
+            inverseJoinColumns = @JoinColumn(name = "student_id"),
+            name = "relationships")
+    List<User> users;
+
+    // метод запускается перед каждым сохранением пользователя в БД
+    @PrePersist
+    private void generateUniqueToken() {
+        if (token == null) {
+            token = UUID.randomUUID();
+        }
+    }
 }

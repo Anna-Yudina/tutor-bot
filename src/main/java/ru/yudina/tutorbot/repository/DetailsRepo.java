@@ -7,5 +7,5 @@ import ru.yudina.tutorbot.entity.user.UserDetails;
 import java.util.UUID;
 
 @Repository
-public interface DetailsRepo extends JpaRepository<UserDetails, UUID> {
+public interface DetailsRepo extends JpaRepository<UserDetails, Long> {
 }
